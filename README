@@ -1,0 +1,67 @@
+
+Google makes it pretty easy to migrate from one Google Account to
+another with Google Reader, letting you export a OPML file of your
+subscriptions from one account and to import it into the next - it
+even gets folders right!
+
+Alas, other state is not transferred, so if you used the 'starred'
+items as a bookmarking feature over the past few years and have
+built up a hundreds of starred items, moving accounts might sound
+like an unhappy prospect.
+
+Fortunately, Google Reader has a well-documented API, and changing
+the 'starred' status of an item is supported through the API.
+
+To use this script, you need to get a copy of your starred items
+as an atom document.  Log into Google Reader with the account you're 
+moving away from, and then, in another tab, open this:
+http://www.google.com/reader/atom/user/-/state/com.google/starred?n=500
+
+It should give you back an XML document with your first 500 starred
+items. Save that file. If you've got more than 500 starred items,
+increase the number at the end.  There is a limit on the number of
+items you can request in one shot, and while it may be a large
+number (10,000) but it's still a limit.  If you hit it, you may
+need to look into the continuation token.  It's not clear to me if
+the API may return less than the items you request and give you a
+continutation token even if you're not at the official limit - I
+only had 465 starred items and so it was never an issue.
+
+(If you want to know how many items you've got starred, visit this URL:
+http://www.google.com/reader/api/0/stream/items/count?s=user/-/state/com.google/starred
+
+Then, assuming you saved the XML document as 'starred.xml', run
+python star-greader-posts.py starred.xml your-new-google-reader-account your-password
+
+It will spin over each entry in the atom document and star the
+appropriate entry.
+
+Useful references:
+
+We use the ClientLogin authentication method, and not OAuth - this
+looks like it'd be a great reference if we really wanted to use
+OAuth
+http://asktherelic.com/2010/04/26/accessing-google-reader-via-oauth-and-python/
+
+This script is heavily based on these two posts:
+http://stackoverflow.com/questions/52880/google-reader-api-unread-count
+and
+http://blog.yjl.im/2010/08/using-python-to-get-google-reader.html
+
+In particular, if you run up against some sort of limit in the
+number of items you can return in one shot, you'll need to modify
+the code to use the Continuation Token to download your starred.xml
+file in chunks.
+
+Note that these two scripts only get an authenticated session that
+will let you read data, and not write it - you need to get a token
+(not a continuation token - there are multiple things called
+'token's) in order to star an item.
+
+The API Documentation is very, very helpful
+http://blog.martindoms.com/2009/08/15/using-the-google-reader-api-part-1/
+http://code.google.com/p/pyrfeed/wiki/GoogleReaderAPI
+http://code.google.com/p/google-reader-api/
+This page, in particular, finally made it clear where the token
+I needed was going to come from.
+http://code.google.com/p/google-reader-api/wiki/Authentication
