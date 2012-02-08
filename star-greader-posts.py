@@ -13,7 +13,7 @@ from xml.dom import EMPTY_NAMESPACE
 import urllib
 import urllib2
 import sys
-
+import time
 
 def addStar(feed, item, token):
   item_star_data = urllib.urlencode({
@@ -78,7 +78,7 @@ ATOM_NS = 'http://www.w3.org/2005/Atom'
 doc = minidom.parse(posts_to_star)
 doc.normalize()
 
-for entry in doc.getElementsByTagNameNS(ATOM_NS, u'entry'):
+for entry in reversed(doc.getElementsByTagNameNS(ATOM_NS, u'entry')):
   title = entry.getElementsByTagNameNS(ATOM_NS, u'title')[0].firstChild.data
   id = entry.getElementsByTagNameNS(ATOM_NS, u'id')[0].firstChild.data
 
@@ -87,3 +87,4 @@ for entry in doc.getElementsByTagNameNS(ATOM_NS, u'entry'):
 
   print "Starring %s  - id %s of feed %s" % (title, id, feedVal)
   addStar(feedVal, id, token)
+  time.sleep(1)
