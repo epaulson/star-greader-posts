@@ -1,4 +1,3 @@
-
 Google makes it pretty easy to migrate from one Google Account to
 another with Google Reader, letting you export a OPML file of your
 subscriptions from one account and to import it into the next - it
@@ -70,3 +69,6 @@ http://code.google.com/p/google-reader-api/
 This page, in particular, finally made it clear where the token
 I needed was going to come from.
 http://code.google.com/p/google-reader-api/wiki/Authentication
+
+Thanks to Reece Hart for the improvements on order-handling and
+a pointer to the app-specific passwords.
