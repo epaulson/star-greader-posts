@@ -33,6 +33,11 @@ http://www.google.com/reader/api/0/stream/items/count?s=user/-/state/com.google/
 Then, assuming you saved the XML document as 'starred.xml', run
 python star-greader-posts.py starred.xml your-new-google-reader-account your-password
 
+If you use two-step authentication, you'll need to get an application
+specific password. Go to https://www.google.com/settings/, then "click
+Authorizing Applications & Sites", then "Generate new application-specific
+password".
+
 It will spin over each entry in the atom document and star the
 appropriate entry.
 
